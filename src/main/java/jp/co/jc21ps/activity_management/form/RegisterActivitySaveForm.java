@@ -41,7 +41,7 @@ public class RegisterActivitySaveForm {
      */
 
     @NotBlank(message = "{NotBlank}")
-    //@Pattern(regexp = "^\\d{4}/\\d{2}/\\d{2}$", message  = "{DateTimeFormat}")
+    @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message  = "{DateTimeFormat}")
     private String activityDate;
 
     // 過去の日付が入力されたとき

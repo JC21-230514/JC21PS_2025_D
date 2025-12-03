@@ -161,8 +161,8 @@ public class TopRepository {
             return responseEntity;
         }
 
-        // 活動時間をHH:MM形式に指定
-        DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:MM");
+        // 活動時間をHH:mm形式に指定
+        DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:mm");
 
         // 活動日をyyyy-MM-dd形式に指定
         DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
