@@ -19,7 +19,7 @@ public class ParticipantListService {
     }
 
     // 初期画面表示
-    public ParticipantDto getParticipantListData(ParticipantListDto paramDto) {
+    public List<ParticipantDto> getParticipantListData(ParticipantListDto paramDto) {
 
         // entityに値をセット
         ParticipantListEntity participantListEntity = new ParticipantListEntity();
@@ -27,28 +27,23 @@ public class ParticipantListService {
         participantListEntity.setUserId(paramDto.getUserId());
         participantListEntity.setUserName(paramDto.getUserName());
 
-        String responseActName = participantListRepository.getActivityName(participantListEntity);
+        // 参加者一覧データ取得
+        List<ParticipantListEntity> participantList =
+                participantListRepository.getParticipantListData(participantListEntity);
 
-        List<ParticipantListEntity> participantList = participantListRepository
-                .getParticipantListData(participantListEntity);
-
-        List<ParticipantListDto> responseListDto = new ArrayList<>();
-        ParticipantDto responseDto = new ParticipantDto();
+        // Controller が必要としている List<ParticipantDto>
+        List<ParticipantDto> resultList = new ArrayList<>();
 
         for (ParticipantListEntity entity : participantList) {
 
-            // dtoに値をセット
-            ParticipantListDto setDto = new ParticipantListDto();
-            setDto.setActivityId(entity.getActivityId());
-            setDto.setUserId(entity.getUserId());
-            setDto.setActivityName(entity.getActivityName());
-            setDto.setUserName(entity.getUserName());
-            responseListDto.add(setDto);
+            ParticipantDto dto = new ParticipantDto();
+            dto.setParticipantUserId(entity.getUserId());
+            dto.setParticipantUserName(entity.getUserName());
+            dto.setParticipantClubName(entity.getClubName()); // エンティティにある前提
+
+            resultList.add(dto);
         }
 
-        responseDto.setPariticipantListDto(responseListDto);
-        responseDto.setActivityName(responseActName);
-
-        return responseDto;
+        return resultList;
     }
 }

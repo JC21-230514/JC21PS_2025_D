@@ -2,52 +2,31 @@ package jp.co.jc21ps.activity_management.form;
 
 public class ParticipantListForm {
 
-    // 活動ID
-    private String activityId;
+    private String participantUserId;
+    private String participantUserName;
+    private String participantClubName;
 
-    // ユーザーID
-    private String userId;
-
-    // 活動名
-    private String activityName;
-
-    // ユーザー名
-    private String userName;
-
-    public ParticipantListForm() {
-
+    public String getParticipantUserId() {
+        return participantUserId;
     }
 
-    public String getActivityId() {
-        return activityId;
+    public void setParticipantUserId(String participantUserId) {
+        this.participantUserId = participantUserId;
     }
 
-    public void setActivityId(String activityId) {
-        this.activityId = activityId;
+    public String getParticipantUserName() {
+        return participantUserName;
     }
 
-    public String getUserId() {
-        return userId;
+    public void setParticipantUserName(String participantUserName) {
+        this.participantUserName = participantUserName;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public String getParticipantClubName() {
+        return participantClubName;
     }
 
-    public String getActivityName() {
-        return activityName;
+    public void setParticipantClubName(String participantClubName) {
+        this.participantClubName = participantClubName;
     }
-
-    public void setActivityName(String activityName) {
-        this.activityName = activityName;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
 }

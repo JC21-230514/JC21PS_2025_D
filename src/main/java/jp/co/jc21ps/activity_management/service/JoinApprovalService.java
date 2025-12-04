@@ -29,9 +29,28 @@ public class JoinApprovalService {
         paramEntity.setUserName(paramDto.getUserName());
         paramEntity.setClubName(paramDto.getClubName());
 
-        String clubName = paramRepository.getClubName(paramEntity);
+        String clubName = "";
+        try {
+            clubName = paramRepository.getClubName(paramEntity);
+            if (clubName == null) {
+                clubName = "";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            clubName = "";
+        }
 
-        List<JoinApprovalEntity> approvalLists = paramRepository.getJoinApprovalList(paramEntity);
+        List<JoinApprovalEntity> approvalLists = new ArrayList<>();
+        try {
+            approvalLists = paramRepository.getJoinApprovalList(paramEntity);
+            if (approvalLists == null) {
+                approvalLists = new ArrayList<>();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            approvalLists = new ArrayList<>();
+        }
+
         List<JoinApprovalDto> viewData = new ArrayList<>();
 
         // dtoに値をセット

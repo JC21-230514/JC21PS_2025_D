@@ -1,33 +1,32 @@
 package jp.co.jc21ps.activity_management.form;
 
-import java.util.List;
-
 public class ParticipantForm {
 
-    // 参加者リスト
-    private List<ParticipantListForm> participantList;
+    private String participantUserId;
+    private String participantUserName;
+    private String participantClubName;
 
-    // 活動名
-    private String activityName;
-
-    public ParticipantForm() {
-
+    public String getParticipantUserId() {
+        return participantUserId;
     }
 
-    public List<ParticipantListForm> getParticipantList() {
-        return participantList;
+    public void setParticipantUserId(String participantUserId) {
+        this.participantUserId = participantUserId;
     }
 
-    public void setParticipantList(List<ParticipantListForm> participantList) {
-        this.participantList = participantList;
+    public String getParticipantUserName() {
+        return participantUserName;
     }
 
-    public String getActivityName() {
-        return activityName;
+    public void setParticipantUserName(String participantUserName) {
+        this.participantUserName = participantUserName;
     }
 
-    public void setActivityName(String activityName) {
-        this.activityName = activityName;
+    public String getParticipantClubName() {
+        return participantClubName;
     }
 
+    public void setParticipantClubName(String participantClubName) {
+        this.participantClubName = participantClubName;
+    }
 }

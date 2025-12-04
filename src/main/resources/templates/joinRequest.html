@@ -17,23 +17,27 @@
       </div>
       <div class="title">部員登録申請</div>
       <div class="frame">
-        <div class="joinOk" th:if="${joinRequestCompleteMessage != null}"
-          style="color: red; font-size: 20px; font-weight: 600;">
+        <div class="joinOk" th:if="${joinRequestCompleteMessage != null and joinRequestCompleteMessage != ''}"
+          style="color: red; font-size: 20px; font-weight: 600; padding: 20px;">
           <p th:text="${joinRequestCompleteMessage}"></p>
         </div>
-        <div class="joinNot" th:if="${notRequestClubMessage != null}">
-          <p th:text="${notRequestClubMessage}"></p>
+        <div class="joinNot" th:if="${notRequestClubMessage != null and notRequestClubMessage != ''}"
+          style="color: red; font-size: 20px; font-weight: 600; padding: 20px; margin: 20px 0; position: relative; display: block; width: 100%;">
+          <p style="position: relative; color: red; font-size: 20px; font-weight: 600;" th:text="${notRequestClubMessage}"></p>
         </div>
-        <div class="container-in-a" th:if="${notRequestClubMessage == null}">
+        <div class="container-in-a" th:if="${notRequestClubMessage == null or notRequestClubMessage == ''}">
           <div class="wrapper">
             <div class="div-2">
               <div class="title-action-buttons">
                 <div class="header-base-wrapper">
-                  <div th:if="${joinRequestSaveForm} != null">
+                  <div th:if="${joinRequestSaveForm != null and !#lists.isEmpty(joinRequestSaveForm)}">
                     <div class="header-base" th:each="joinRequestList : ${joinRequestSaveForm}">
-                      <div class="text-wrapper" th:text="*{joinRequestList.clubName}"></div>
+                      <div class="text-wrapper" th:text="${joinRequestList.clubName}"></div>
                       <div class="action-stripe-wrapper">
-                        <form th:action="@{/joinRequest/save}" th:object="${joinRequestSaveForm}" method="post">
+                        <form th:action="@{/joinRequest/save}" method="post">
+
+                          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
                           <input type="hidden" name="clubId" th:value="${joinRequestList.clubId}" />
                           <div class="action-stripe">
                             <button class="button" type="submit">
@@ -46,8 +50,9 @@
                             </button>
                           </div>
                         </form>
+
                       </div>
-                      <div class="description" th:text="*{joinRequestList.clubDescription}"></div>
+                      <div class="description" th:text="${joinRequestList.clubDescription}"></div>
                     </div>
                   </div>
                 </div>
