@@ -38,39 +38,61 @@ public class ParticipantListController {
 
         ModelAndView mav = new ModelAndView();
 
-        // 活動IDが存在しない場合、エラー画面に遷移
         if (activityId.isEmpty()) {
             mav.setViewName("error");
             return mav;
         }
 
-        /*
-         * TODO ➊ セッションからuserId, clubIdを取得
-         */
+        // セッション情報取得
         SessionDto sessionDto = commonService.getSessionDto(session);
         String userId = sessionDto.getUserId();
         String clubId = sessionDto.getClubId();
 
-        // セッションが切れた場合、エラー画面に遷移
-            if (userId.isEmpty()) {
-                mav.setViewName("error");
-                return mav;
-         }
+        if (userId.isEmpty()) {
+            mav.setViewName("error");
+            return mav;
+        }
 
-        /*
-         * ➋TODO dtoに値をセット
-         */
+        // DTOに値をセット
         ParticipantListDto dto = new ParticipantListDto();
         dto.setUserId(userId);
         dto.setActivityId(activityId);
+<<<<<<< HEAD
+        dto.setClubId(clubId);
+        dto.setLeaderClubId(leaderClubId);
+
+        try {
+
+            // サービス呼び出し
+            List<ParticipantDto> participantDtoList = participantListService.getParticipantListData(dto);
+=======
 
         try {
             // ➌TODO participantListServiceのgetParticipantListDataメソッドを呼び出す。
             ParticipantDto returnDto = participantListService.getParticipantListData(dto);
+>>>>>>> 2e24277ed4210b651bb55b2a8fe07bba1e5fec6f
 
-            // 返却用のリスト
+            // 返却用フォームリスト
             List<ParticipantListForm> responseListForm = new ArrayList<>();
 
+<<<<<<< HEAD
+            // ParticipantDto → List<ParticipantListDto> を展開
+            for (ParticipantDto participantDto : participantDtoList) {
+
+                List<ParticipantListDto> list = participantDto.getPariticipantListDto();
+
+                if (list != null) {
+                    for (ParticipantListDto data : list) {
+
+                        ParticipantListForm form = new ParticipantListForm();
+
+                        form.setParticipantUserId(data.getUserId());
+                        form.setParticipantUserName(data.getUserName());
+                        form.setParticipantClubName(data.getActivityName());
+
+                        responseListForm.add(form);
+                    }
+=======
             /*
              * ➍ TODO responseListFormに値をセット
              */
@@ -82,29 +104,28 @@ public class ParticipantListController {
                     form.setActivityName(participantListDto.getActivityName());
                     form.setUserName(participantListDto.getUserName());
                     responseListForm.add(form);
+>>>>>>> 2e24277ed4210b651bb55b2a8fe07bba1e5fec6f
                 }
+            }
+
+            // 画面に渡す
             mav.addObject("participantList", responseListForm);
-            /*
-             * ➎ TODO 取得したデータを画面側に渡す。
-             */
             mav.addObject("activityId", activityId);
 
-            // 参加者一覧画面に遷移
-            mav.setViewName("participantList");
-            
-            // messages.propertiesからメッセージを取得
+            // メッセージ
             String resultMessage = messageSource.getMessage("notpariticipant", null, Locale.getDefault());
             mav.addObject("message", resultMessage);
+<<<<<<< HEAD
+=======
             mav.addObject("leaderClubId", clubId);
+>>>>>>> 2e24277ed4210b651bb55b2a8fe07bba1e5fec6f
 
-            // 遷移先の設定
             mav.setViewName("participantList");
+
         } catch (Exception e) {
             mav.setViewName("error");
         }
 
         return mav;
-
     }
-
 }

@@ -14,6 +14,9 @@ public class ParticipantListEntity {
     // ユーザー名
     private String userName;
 
+    // ★ 追加：クラブ名
+    private String clubName;
+
     public ParticipantListEntity() {
     }
 
@@ -53,4 +56,12 @@ public class ParticipantListEntity {
         this.userName = userName;
     }
 
+    // ★ 追加：クラブ名 Getter/Setter
+    public String getClubName() {
+        return clubName;
+    }
+
+    public void setClubName(String clubName) {
+        this.clubName = clubName;
+    }
 }
