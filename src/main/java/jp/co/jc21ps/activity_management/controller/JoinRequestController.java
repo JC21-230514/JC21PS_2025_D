@@ -40,18 +40,67 @@ public class JoinRequestController {
         this.commonService = commonService;
     }
 
+    @GetMapping
+    public ModelAndView getJoinRequestById(HttpSession session, JoinRequestSaveForm paramForm,
+            @ModelAttribute("joinOkMessage") String joinOkMessage) {
+ 
+        ModelAndView mav = new ModelAndView();
+ 
+        // セッションからuserIdを取得
+        SessionDto sessionDto = commonService.getSessionDto(session);
+        String userId = sessionDto.getUserId();
+        String leaderClubId = sessionDto.getClubId();
+ 
+        // セッションが切れた場合、エラー画面に遷移
+        if (userId.isEmpty()) {
+            mav.setViewName("error");
+            return mav;
+        }
+ 
+        // formに値をセット
+        JoinRequestSaveForm form = new JoinRequestSaveForm();
+        form.setUserId(userId);
+ 
+        // dtoに値をセット
+        JoinRequestDto joinRequestDto = new JoinRequestDto();
+        joinRequestDto.setUserId(userId);
+ 
+        List<JoinRequestDto> joinRequestList = joinRequestService.findRequest(joinRequestDto);
+        List<JoinRequestSaveForm> responseForm = new ArrayList<>();
+ 
+        // formに値をセット
+        for (JoinRequestDto dto : joinRequestList) {
+ 
+            JoinRequestSaveForm saveData = new JoinRequestSaveForm();
+            saveData.setClubName(dto.getClubName());
+            saveData.setClubDescription(dto.getClubDescription());
+            saveData.setClubId(dto.getClubId());
+ 
+            // responseFormにリストを追加
+            responseForm.add(saveData);
+ 
+        }
+        // リダイレクトされてきた登録申請成功のメッセージを、paramFormにセットする
+        paramForm.setMessage(joinOkMessage);
+ 
+        /*
+         * TODO ➊ 初期表示情報取得結果に応じて、以下の条件文を完成させる。
+         */
+ 
+        mav.addObject("leaderClubId", leaderClubId);
+ 
+        // 部員登録申請画面に遷移
+        mav.setViewName("joinRequest");
+        return mav;
+ 
+    }
     /**
      * ① 初期表示（一覧画面）
      */
-    @GetMapping
-<<<<<<< HEAD
+    /*@GetMapping
     public ModelAndView getJoinRequestList(
             HttpSession session,
             @ModelAttribute("joinOkMessage") String joinOkMessage) {
-=======
-    public ModelAndView getJoinRequestById(HttpSession session, JoinRequestSaveForm paramForm,
-            @ModelAttribute("joinRequestCompleteMessage") String joinRequestCompleteMessage) {
->>>>>>> 2e24277ed4210b651bb55b2a8fe07bba1e5fec6f
 
         ModelAndView mav = new ModelAndView();
 
@@ -92,18 +141,6 @@ public class JoinRequestController {
                 formList.add(f);
             }
         }
-<<<<<<< HEAD
-
-        // 申請する部署がない場合のメッセージ
-        String notRequestClubMessage = null;
-        if (formList == null || formList.isEmpty()) {
-            try {
-                notRequestClubMessage = messageSource.getMessage("notRequestClubMessage", null, Locale.getDefault());
-            } catch (Exception e) {
-                // メッセージ取得に失敗した場合、デフォルトメッセージを設定
-                notRequestClubMessage = "申請する部署がありません。";
-            }
-=======
         // リダイレクトされてきた登録申請成功のメッセージを、paramFormにセットする
         paramForm.setMessage(joinRequestCompleteMessage);
         
@@ -120,7 +157,6 @@ public class JoinRequestController {
         } else {
             // 申請可能な部署が存在する場合、リストを表示
             mav.addObject("joinRequestSaveForm", responseForm);
->>>>>>> 2e24277ed4210b651bb55b2a8fe07bba1e5fec6f
         }
 
         mav.addObject("joinRequestSaveForm", formList);
@@ -130,7 +166,7 @@ public class JoinRequestController {
 
         mav.setViewName("joinRequest");
         return mav;
-    }
+    }*/
 
     /**
      * ② 確認画面表示
@@ -180,11 +216,8 @@ public class JoinRequestController {
         dto.setUserId(userId);
         dto.setClubId(paramForm.getClubId());
 
-<<<<<<< HEAD
-        boolean result = joinRequestService.insertJoinRequest(dto);
-=======
-        try {
-            boolean result = joinRequestService.insertJoinRequest(joinRequestSaveDto);
+        //try{
+            boolean result = joinRequestService.insertJoinRequest(dto);
             
             // インサートの成功、失敗に応じて、処理を変更
             if (result) {
@@ -196,7 +229,6 @@ public class JoinRequestController {
                 // インサート失敗時、エラー画面に遷移
                 mav.setViewName("error");
             }
->>>>>>> 2e24277ed4210b651bb55b2a8fe07bba1e5fec6f
 
         if (result) {
             // 成功メッセージ
@@ -211,5 +243,6 @@ public class JoinRequestController {
         }
 
         return mav;
-    }
+        //}
+}
 }
